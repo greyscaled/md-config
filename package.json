@@ -1,0 +1,41 @@
+{
+  "name": "@vapurrmaid/md-config",
+  "version": "0.0.0",
+  "description": "Vapurrmaid's opinionated configuration for markdownlint.",
+  "keywords": [
+    "config",
+    "markdown",
+    "markdownlint",
+    "markdownlint-clit"
+  ],
+  "homepage": "https://github.com/vapurrmaid/md-config",
+  "bugs": {
+    "email": "vapurrmaid@pm.me"
+  },
+  "license": "MIT",
+  "author": {
+    "email": "vapurrmaid@pm.me",
+    "name": "Gregory (Grey) Barkans",
+    "url": "https://github.com/vapurrmaid"
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vapurrmaud/md-config"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "release": "npm run build && release-it"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.8",
+    "@vapurrmaid/editor-config": "^0.2.1",
+    "release-it": "^12.4.3",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.5"
+  }
+}
