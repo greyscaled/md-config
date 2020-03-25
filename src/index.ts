@@ -1,65 +1,48 @@
 #!/usr/bin/env node
 
 import { execSync } from "child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
-import { resolve } from 'path'
-
-const mdConfig = {
-  default: true,
-  MD013: {
-    code_blocks: false,
-    headings: false,
-    line_length: 80,
-    tables: false,
-  },
-}
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from "fs";
+import { resolve } from "path";
 
 const lintScript = {
-  "lint:md": "markdownlint --ignore \"**/node_modules/**\" ."
-}
-
-const vsCodeSettings = {
-  "markdownlint.config": mdConfig,
-  "markdownlint.ignore": [
-    "node_modules/"
-  ],
-}
+  "lint:md": 'markdownlint --ignore "**/node_modules/**" .'
+};
 
 function writeData(file: string, json: any) {
   writeFileSync(file, JSON.stringify(json, null, 2));
 }
 
 function main(): void {
-  const mdlintPath = resolve(process.cwd(), '.markdownlint.json');
-  const pkgPath = resolve(process.cwd(), 'package.json');
-  const vsCodeDir = resolve(process.cwd(), '.vscode');
-  const vsCodeSettingsPath = resolve(vsCodeDir, 'settings.json');
-
-  // writes .markdownlint.json in cwd
-  writeData(mdlintPath, mdConfig);
-
-  // writes .vscode/settings.json in cwd
-  if (!existsSync(vsCodeDir)) {
-    mkdirSync(vsCodeDir);
-  }
-
-  if (!existsSync(vsCodeSettingsPath)) {
-    writeData(vsCodeSettingsPath, vsCodeSettings);
+  if (existsSync(resolve(process.cwd(), "yarn.lock"))) {
+    console.info("Running yarn add -D markdownlint-cli");
+    execSync("yarn add -D markdownlint-cli");
+  } else if (existsSync(resolve(process.cwd(), "package-lock.json"))) {
+    console.info("Running npm install --save-dev markdownlint-cli");
+    execSync("npm install --save-dev markdownlint-cli");
   } else {
-    const vsOutput = JSON.parse(readFileSync(vsCodeSettingsPath, 'utf8'));
-    writeData(vsCodeSettingsPath, { ...vsOutput, ...vsCodeSettings });
+    console.info(
+      "Neither yarn.lock or package-lock detected. Please install markdownlint-cli manually."
+    );
   }
 
-  // writes package.json lint script in cwd
-  execSync('npm install --save-dev markdownlint-cli')
-  const pkgOutput = JSON.parse(readFileSync(pkgPath, 'utf8'));
-  writeData(pkgPath, {
-    ...pkgOutput,
-    scripts: {
-      ...pkgOutput.scripts,
-      ...lintScript
-    }
-  })
+  if (existsSync(resolve(process.cwd(), "package.json"))) {
+    console.info("Adding lint:md script to package.json");
+    const pkgPath = resolve(process.cwd(), "package.json");
+    const pkgOutput = JSON.parse(readFileSync(pkgPath, "utf8"));
+    writeData(pkgPath, {
+      ...pkgOutput,
+      scripts: {
+        ...pkgOutput.scripts,
+        ...lintScript
+      }
+    });
+  }
+
+  console.info("Creating .markdownlint.json");
+  const markdownlintJson = ".markdownlint.json";
+  const source = resolve(__dirname, "assets", markdownlintJson);
+  const dest = resolve(process.cwd(), markdownlintJson);
+  copyFileSync(source, dest);
 }
 
-main()
+main();

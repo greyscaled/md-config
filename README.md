@@ -6,7 +6,7 @@ This package installs an opinionated `markdownlint` configuration for markdown f
 
 - `.markdownlint.json` configuration
 - `markdownlint-cli` package
-- markdownlint extension configuration in `.vscode/settings.json`
+- `lint:md` script added to `package.json`
 
 ## Installation
 
