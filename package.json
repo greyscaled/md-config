@@ -30,7 +30,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "postbuild": "cpy ./src/assets/.markdownlint.json ./dist/assets",
-    "release": "npm run build && release-it"
+    "release": "yarn build && release-it"
   },
   "devDependencies": {
     "@types/node": "^13.1.8",
