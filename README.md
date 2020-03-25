@@ -1,6 +1,6 @@
 # @vapurrmaid/md-config
 
-This package installs an opinionated configuration for markdown files.
+This package installs an opinionated `markdownlint` configuration for markdown files.
 
 ## What's Included
 
@@ -18,11 +18,15 @@ Use the following command to install the contents in the current directory.
 npx @vapurrmaid/md-config
 ```
 
-### NPM
+### Yarn or NPM
 
 The following installs an executable in `node_modules`:
 
 ```bash
+# yarn
+yarn add -D @vapurrmaid/md-config
+
+# npm
 npm install --save-dev @vapurrmaid/md-config
 ```
 
@@ -38,6 +42,3 @@ While I'm an open-source contributor and love collaboration, I use these
 configurations in my personal/hobby projects. Therefore, I'm generally
 not accepting contributions outside of security-related concerns. Please
 feel free to fork your own version or use these configurations.
-
-> I have disabled issues for this repository. If you'd like to get in touch,
-> feel free to email: vapurrmaid@pm.me
